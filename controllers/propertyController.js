@@ -39,7 +39,6 @@ exports.updateProperty = async (req, res) => {
 
     if (!property) return res.status(404).json({ error: "Property not found" });
 
-    // RBAC: only admin or owner can update
     if (req.user.role !== "admin" && property.owner.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: "Access denied" });
     }

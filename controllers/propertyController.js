@@ -1,18 +1,18 @@
 const Property = require("../models/Property");
 
-const createProperty = async (req, res) => {
+exports.createProperty = async (req, res) => {
   try {
-    const { title, description, price, location, owner } = req.body;
+    const { title, description, price, location } = req.body;
 
-    const images = req.files['images'] ? req.files['images'].map(file => file.path) : [];
-    const videos = req.files['videos'] ? req.files['videos'].map(file => file.path) : [];
+    const images = req.files["images"] ? req.files["images"].map(f => f.path) : [];
+    const videos = req.files["videos"] ? req.files["videos"].map(f => f.path) : [];
 
     const newProperty = new Property({
       title,
       description,
       price,
       location,
-      owner,
+      owner: req.user._id, 
       images,
       videos,
     });
@@ -24,36 +24,47 @@ const createProperty = async (req, res) => {
   }
 };
 
-const getAllProperties = async (req, res) => {
+exports.getAllProperties = async (req, res) => {
   try {
-    const properties = await Property.find().populate("owner");
+    const properties = await Property.find().populate("owner", "name email role");
     res.json(properties);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const updateProperty = async (req, res) => {
+exports.updateProperty = async (req, res) => {
   try {
-    const property = await Property.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const property = await Property.findById(req.params.id);
+
+    if (!property) return res.status(404).json({ error: "Property not found" });
+
+    // RBAC: only admin or owner can update
+    if (req.user.role !== "admin" && property.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    Object.assign(property, req.body);
+    await property.save();
+
     res.json(property);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const deleteProperty = async (req, res) => {
+exports.deleteProperty = async (req, res) => {
   try {
-    await Property.findByIdAndDelete(req.params.id);
+    const property = await Property.findById(req.params.id);
+    if (!property) return res.status(404).json({ error: "Property not found" });
+
+    if (req.user.role !== "admin" && property.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    await property.deleteOne();
     res.json({ message: "Property deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
-
-module.exports = {
-  createProperty,
-  getAllProperties,
-  updateProperty,
-  deleteProperty,
 };

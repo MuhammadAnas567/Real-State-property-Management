@@ -1,45 +1,67 @@
 const Booking = require("../models/Booking");
+const Property = require("../models/Property");
 
-const createBooking = async (req, res) => {
+exports.createBooking = async (req, res) => {
   try {
-    const booking = await Booking.create(req.body);
+    const { propertyId, status } = req.body;
+
+    const property = await Property.findById(propertyId);
+    if (!property) return res.status(404).json({ error: "Property not found" });
+
+    const booking = await Booking.create({
+      user: req.user._id,
+      property: propertyId,
+      status,
+    });
+
     res.status(201).json(booking);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const getAllBookings = async (req, res) => {
+exports.getAllBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().populate("user property");
+    const bookings = await Booking.find()
+      .populate("user", "name email role")
+      .populate("property", "title price location");
+
     res.json(bookings);
-
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const updateBooking = async (req, res) => {
+exports.getMyBookings = async (req, res) => {
   try {
-    const booking = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(booking);
+    const bookings = await Booking.find({ user: req.user._id })
+      .populate("user property")
+
+    if (!bookings) {
+      return res.status(404).json({ message: "No bookings found for this user" });
+    }
+
+    res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const deleteBooking = async (req, res) => {
+exports.deleteBooking = async (req, res) => {
   try {
-    await Booking.findByIdAndDelete(req.params.id);
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(404).json({ error: "Booking not found" });
+
+    if (
+      req.user.role !== "admin" &&
+      booking.user.toString() !== req.user._id.toString()
+    ) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    await booking.deleteOne();
     res.json({ message: "Booking deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
-
-module.exports = {
-  createBooking,
-  getAllBookings,
-  updateBooking,
-  deleteBooking,
 };

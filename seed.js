@@ -1,70 +1,95 @@
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
-const connectDB = require('./config/db')
+const { faker } = require("@faker-js/faker");
 const User = require("./models/User");
 const Property = require("./models/Property");
 const Booking = require("./models/Booking");
+const connectDB = require("./config/db");
+
 dotenv.config();
 
 connectDB();
 
-const seedData = async () => {
+async function seedData() {
   try {
+    console.log("Clearing old data...");
     await User.deleteMany();
     await Property.deleteMany();
     await Booking.deleteMany();
 
-    console.log("Old data cleared");
-
+    console.log("Creating 100 Users...");
     const users = [];
-    for (let i = 1; i <= 100; i++) {
-      const user = new User({
-        name: `User ${i}`,
-        email: `user${i}@example.com`,
-        phone: `0300${Math.floor(1000000 + Math.random() * 9000000)}`,
-        password: await bcrypt.hash("123456", 10),
-        role: i === 1 ? "admin" : "user",
+    for (let i = 0; i < 100; i++) {
+      const hashedPassword = await bcrypt.hash("123456", 10);
+      users.push({
+        name: faker.person.fullName(),
+        email: faker.internet.email(),
+        password: hashedPassword,
+        role: i < 5 ? "admin" : "user", 
       });
-      users.push(user);
     }
-    await User.insertMany(users);
-    console.log("100 Users inserted");
+
+    const createdUsers = await User.insertMany(users);
+
+    console.log("Creating 500 Properties...");
+    const propertyTypes = ["Apartment", "House", "Villa", "Flat", "Studio"];
+    const cities = ["Karachi", "Lahore", "Islamabad", "Rawalpindi", "Multan", "Peshawar"];
+    const amenitiesList = ["WiFi", "Parking", "Pool", "Gym", "AC", "Balcony"];
 
     const properties = [];
-    for (let i = 1; i <= 500; i++) {
-      const owner = users[Math.floor(Math.random() * users.length)]._id;
+    for (let i = 0; i < 500; i++) {
+      const randomOwner = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      const randomCity = cities[Math.floor(Math.random() * cities.length)];
+      const randomType = propertyTypes[Math.floor(Math.random() * propertyTypes.length)];
+      const randomAmenities = faker.helpers.arrayElements(amenitiesList, 3);
+
       properties.push({
-        title: `Property ${i}`,
-        description: `Spacious property number ${i} with amazing features.`,
-        price: Math.floor(Math.random() * 9000000) + 1000000,
-        location: ["DHA", "Clifton", "Bahria Town", "Gulshan"][Math.floor(Math.random() * 4)],
-        images: [`uploads/images/property${i}.jpg`],
-        videos: [`uploads/videos/property${i}.mp4`],
-        owner,
+        title: faker.company.catchPhrase(),
+        description: faker.lorem.paragraph(),
+        price: faker.number.int({ min: 10000, max: 300000 }),
+        type: randomType,
+        city: randomCity,
+        amenities: randomAmenities,
+        owner: randomOwner._id,
+        location: {
+          type: "Point",
+          coordinates: [
+            67.00 + Math.random(),
+            24.80 + Math.random(), 
+          ],
+        },
       });
     }
-    await Property.insertMany(properties);
-    console.log("500 Properties inserted");
 
+    const createdProperties = await Property.insertMany(properties);
+
+    console.log("Creating 200 Bookings...");
     const bookings = [];
-    for (let i = 1; i <= 200; i++) {
-      const user = users[Math.floor(Math.random() * users.length)]._id;
-      const property = properties[Math.floor(Math.random() * properties.length)]._id;
+    for (let i = 0; i < 200; i++) {
+      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
+
+      const checkIn = faker.date.soon({ days: 30 });
+      const checkOut = new Date(checkIn);
+      checkOut.setDate(checkOut.getDate() + faker.number.int({ min: 1, max: 10 }));
+
       bookings.push({
-        user,
-        property,
-        status: ["pending", "confirmed", "cancelled"][Math.floor(Math.random() * 3)],
+        user: randomUser._id,
+        property: randomProperty._id,
+        status: "confirmed",
+        checkInDate: checkIn,
+        checkOutDate: checkOut,
       });
     }
-    await Booking.insertMany(bookings);
-    console.log("200 Bookings inserted");
 
-    console.log("All Dummy Data Seeded Successfully!");
+    await Booking.insertMany(bookings);
+
+    console.log("Data Seeded Successfully!");
     process.exit();
   } catch (error) {
-    console.error("Seeding failed:", error);
+    console.error("Seeding Failed:", error);
     process.exit(1);
   }
-};
+}
 
 seedData();

@@ -1,12 +1,22 @@
 const Booking = require("../models/Booking");
 const Property = require("../models/Property");
+const pagination = require("../utils/pagination");
 
 exports.createBooking = async (req, res) => {
   try {
     const { propertyId, status } = req.body;
 
     const property = await Property.findById(propertyId);
-    if (!property) return res.status(404).json({ error: "Property not found" });
+    if (!property) return res.status(404).json({ error: "Property not found." });
+
+    const existingBooking = await Booking.findOne({
+      user: req.user._id,
+      property: propertyId,
+    });
+
+    if (existingBooking) {
+      return res.status(400).json({ error: "Booking already exists." });
+    }
 
     const booking = await Booking.create({
       user: req.user._id,
@@ -14,7 +24,14 @@ exports.createBooking = async (req, res) => {
       status,
     });
 
-    res.status(201).json(booking);
+    const bookingCreated = await Booking.findById(booking._id)
+      .populate({
+        path: "user",
+        select: "-password",
+      })
+      .populate("property");
+
+    res.status(201).json(bookingCreated);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -22,22 +39,47 @@ exports.createBooking = async (req, res) => {
 
 exports.getAllBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find()
-      .populate("user", "name email role")
-      .populate("property", "title price location");
+    const { page = 1, limit = 10 } = req.query;
+    const skip = (page - 1) * limit;
 
-    res.json(bookings);
+    const bookings = await Booking.find()
+      .populate("user", "id name email role")
+      .populate("property")
+      .skip(skip)
+      .limit(Number(limit));
+
+    const totalRecords = await Booking.countDocuments();
+
+    res.json({
+      records: bookings,
+      totalRecords,
+      totalPages: Math.ceil(totalRecords / limit),
+      currentPage: Number(page),
+    });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 };
 
 exports.getMyBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ user: req.user._id })
-      .populate("user property")
+    const { page = 1, limit = 10 } = req.query;
 
-    if (!bookings) {
+    const bookings = await pagination(
+      Booking,
+      { user: req.user._id },
+      {
+        page,
+        limit,
+        populate: [
+          { path: "user", select: "name email role" },
+          { path: "property", select: "title price city location" },
+        ],
+      }
+    );
+
+    if (!bookings.records.length) {
       return res.status(404).json({ message: "No bookings found for this user" });
     }
 
@@ -46,6 +88,7 @@ exports.getMyBookings = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 exports.deleteBooking = async (req, res) => {
   try {

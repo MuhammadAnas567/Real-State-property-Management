@@ -1,0 +1,385 @@
+{
+	"info": {
+		"_postman_id": "a6ae1f99-bca4-4d93-95b9-8c4e0474b60b",
+		"name": "BQ Final Term - Real State",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33143302"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Muhammad Shan\",\r\n    \"email\":\"sheikh.shan28@gmail.com\",\r\n    \"password\":\"123\",\r\n    \"phone\":\"0333-6747574\",\r\n    \"role\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authRoutes}}register",
+							"host": [
+								"{{authRoutes}}register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"sheikh.shan28@gmail.com\",\r\n    \"password\":\"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authRoutes}}login",
+							"host": [
+								"{{authRoutes}}login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{authRoutes}}all{{pagination}}",
+							"host": [
+								"{{authRoutes}}all{{pagination}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Properties",
+			"item": [
+				{
+					"name": "createProperty",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Luxury Apartment in Karachi\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"wifi\", \"parking\", \"pool\", \"gym\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n  \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [67.05, 24.83]\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{propertyRoutes}}",
+							"host": [
+								"{{propertyRoutes}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProperty",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Luxury Apartment in Karachi 2\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"wifi\", \"parking\", \"pool\", \"gym\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n  \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [67.05, 24.83]\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d",
+							"host": [
+								"{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProperty",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Luxury Apartment in Karachi 2\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"wifi\", \"parking\", \"pool\", \"gym\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n  \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [67.05, 24.83]\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d",
+							"host": [
+								"{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProperties",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{propertyRoutes}}{{pagination}}",
+							"host": [
+								"{{propertyRoutes}}{{pagination}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "createBooking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"propertyId\":\"68ed768baf2232b21739d346\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bookingRoutes}}",
+							"host": [
+								"{{bookingRoutes}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllBookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bookingRoutes}}",
+							"host": [
+								"{{bookingRoutes}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMyBookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bookingRoutes}}my",
+							"host": [
+								"{{bookingRoutes}}my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBooking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{bookingRoutes}}68ed7d54d35d7633b4ddcd7d",
+							"host": [
+								"{{bookingRoutes}}68ed7d54d35d7633b4ddcd7d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{chatRoutes}}68ed6a186b6b2ce460c98811",
+							"host": [
+								"{{chatRoutes}}68ed6a186b6b2ce460c98811"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiverId\":\"68ed6a186b6b2ce460c98811\",\r\n    \"message\":\"Hi there, How are you!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{chatRoutes}}sendmessage",
+							"host": [
+								"{{chatRoutes}}sendmessage"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const pagination = require("../utils/pagination");
 
 const generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
@@ -13,12 +14,15 @@ exports.registerUser = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ error: "Email already exists" });
+    if (existingUser)
+      return res.status(400).json({ error: "Email already exists" });
 
     const user = await User.create({ name, email, password, phone, role });
     const token = generateToken(user._id, user.role);
 
-    res.status(201).json({ message: "User registered successfully", user, token });
+    res
+      .status(201)
+      .json({ message: "User registered successfully", user, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -33,16 +37,20 @@ exports.loginUser = async (req, res) => {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
+    const { password: _, ...userData } = user.toObject();
+
     const token = generateToken(user._id, user.role);
-    res.json({ message: "Login successful", user, token });
+    res.json({ message: "Login successful", userData, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
+  
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password"); 
+    const { page = 1, limit = 10 } = req.query;
+    // return console.log(page, limit);
+    const users = await pagination(User, {  }, { page, limit });
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });

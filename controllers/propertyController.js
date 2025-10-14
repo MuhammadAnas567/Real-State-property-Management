@@ -134,3 +134,93 @@ exports.deleteProperty = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.searchProperties = async (req, res) => {
+  try {
+    const {
+      keyword,
+      minPrice,
+      maxPrice,
+      city,
+      amenities,
+      lat,
+      lng,
+      distance,
+      sortBy,
+    } = req.query;
+
+    const pipeline = [];
+
+    
+    if (lat && lng && distance) {
+      pipeline.push({
+        $geoNear: {
+          near: {
+            type: "Point",
+            coordinates: [parseFloat(lng), parseFloat(lat)],
+          },
+          distanceField: "distance",
+          maxDistance: parseFloat(distance) * 1000, // km -> meters
+          spherical: true,
+        },
+      });
+    }
+
+    
+    const matchStage = {};
+
+    if (keyword) {
+      matchStage.$or = [
+        { title: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+      ];
+    }
+
+    if (minPrice || maxPrice) {
+      matchStage.price = {};
+      if (minPrice) matchStage.price.$gte = parseFloat(minPrice);
+      if (maxPrice) matchStage.price.$lte = parseFloat(maxPrice);
+    }
+
+    if (city) {
+      matchStage.city = { $regex: city, $options: "i" };
+    }
+
+    if (amenities) {
+      const amenitiesArray = amenities.split(",");
+      matchStage.amenities = { $all: amenitiesArray };
+    }
+
+    
+    matchStage.status = true;
+    matchStage.isExpire = false;
+
+    pipeline.push({ $match: matchStage });
+
+    
+    if (sortBy === "priceLowToHigh") {
+      pipeline.push({ $sort: { price: 1 } });
+    } else if (sortBy === "priceHighToLow") {
+      pipeline.push({ $sort: { price: -1 } });
+    } else {
+      pipeline.push({ $sort: { createdAt: -1 } });
+    }
+
+    
+    const properties = await Property.aggregate(pipeline);
+
+    res.status(200).json({
+      success: true,
+      count: properties.length,
+      data: properties,
+    });
+  } catch (error) {
+    console.error("Search error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
+  }
+};

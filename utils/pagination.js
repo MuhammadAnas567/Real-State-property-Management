@@ -3,7 +3,7 @@ const pagination = async (model, query, options) => {
 
   const skip = (page - 1) * limit;
 
-  let mongooseQuery = model.find(query).skip(skip).limit(Number(limit));
+  let mongooseQuery = model.find(query).skip(skip).limit(Number(limit)).sort({ createdAt: -1});
   
   if (Array.isArray(populate) && populate.length > 0) {
     populate.forEach(p => {

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a6ae1f99-bca4-4d93-95b9-8c4e0474b60b",
+		"_postman_id": "c31627da-e4f9-4061-922a-bf192c997225",
 		"name": "BQ Final Term - Real State",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33143302"
@@ -101,7 +101,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Luxury Apartment in Karachi\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"wifi\", \"parking\", \"pool\", \"gym\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n  \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [67.05, 24.83]\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"title\": \"Zong Luxury Apartment in Karachi\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"WIFI\", \"Parking\", \"Pool\", \"Gym\", \"Masjid\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n//   \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [24.81836,67.0063023]\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -134,7 +134,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Luxury Apartment in Karachi 2\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"wifi\", \"parking\", \"pool\", \"gym\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n  \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [67.05, 24.83]\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"title\": \"Luxury Apartment in Karachi 2\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"WiFi\", \"Parking\", \"Pool\", \"Gym\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n  \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [67.05, 24.83]\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -142,9 +142,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d",
+							"raw": "{{propertyRoutes}}{{propertyId}}",
 							"host": [
-								"{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d"
+								"{{propertyRoutes}}{{propertyId}}"
 							]
 						}
 					},
@@ -175,9 +175,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d",
+							"raw": "{{propertyRoutes}}{{propertyId}}",
 							"host": [
-								"{{propertyRoutes}}68ed7a55d35d7633b4ddcd5d"
+								"{{propertyRoutes}}{{propertyId}}"
 							]
 						}
 					},
@@ -210,8 +210,41 @@
 			]
 		},
 		{
+			"name": "Properties Filters",
+			"item": [
+				{
+					"name": "searchByKeyword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{propertyRoutes}}search{{keyword}}",
+							"host": [
+								"{{propertyRoutes}}search{{keyword}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Booking",
 			"item": [
+				{
+					"name": "Booking Filters",
+					"item": []
+				},
 				{
 					"name": "createBooking",
 					"request": {
@@ -229,7 +262,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"propertyId\":\"68ed768baf2232b21739d346\"\r\n}",
+							"raw": "{\r\n    \"propertyId\":\"{{propertyId}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -309,9 +342,42 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{bookingRoutes}}68ed7d54d35d7633b4ddcd7d",
+							"raw": "{{bookingRoutes}}{{bookingId}}",
 							"host": [
-								"{{bookingRoutes}}68ed7d54d35d7633b4ddcd7d"
+								"{{bookingRoutes}}{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirmBooking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bookingId\": \"{{bookingId}}\",\r\n    \"status\": \"confirmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bookingRoutes}}confirmbooking",
+							"host": [
+								"{{bookingRoutes}}confirmbooking"
 							]
 						}
 					},
@@ -338,9 +404,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{chatRoutes}}68ed6a186b6b2ce460c98811",
+							"raw": "{{chatRoutes}}{{userId}}",
 							"host": [
-								"{{chatRoutes}}68ed6a186b6b2ce460c98811"
+								"{{chatRoutes}}{{userId}}"
 							]
 						}
 					},

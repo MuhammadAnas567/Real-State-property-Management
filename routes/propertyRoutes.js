@@ -6,6 +6,7 @@ const {
   getAllProperties,
   updateProperty,
   deleteProperty,
+  searchProperties,
 } = require("../controllers/propertyController");
 
 const { authMiddleware, authorizeRoles } = require("../middleware/authMiddleware");
@@ -32,5 +33,6 @@ router.post(
 router.get("/", authMiddleware, getAllProperties);
 router.put("/:id", authMiddleware, updateProperty);
 router.delete("/:id", authMiddleware, deleteProperty);
+router.get("/search", authMiddleware, searchProperties);
 
 module.exports = router;

@@ -51,8 +51,6 @@ CRUD Operations: Full Create, Read, Update, Delete operations for Users, Propert
 
 Multer Integration: Enables image upload functionality for property listings.
 
-Real-Time Notifications: Users receive instant updates for booking status changes (Confirmed, Cancelled).
-
 Role-Based Access: Secure endpoints for Admin, Owner, and User roles using JWT Authorization.
 
 🧩 Tech Stack

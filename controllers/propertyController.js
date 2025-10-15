@@ -15,6 +15,7 @@ exports.createProperty = async (req, res) => {
       location,
       images,
       videos,
+      type,
     } = req.body;
 
     let parsedAmenities =
@@ -50,6 +51,7 @@ exports.createProperty = async (req, res) => {
       videos: videoPaths,
       owner: owner || req.user._id,
       location: parsedLocation,
+      type,
     });
 
     await newProperty.save();

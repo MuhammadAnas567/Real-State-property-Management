@@ -101,7 +101,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Zong Luxury Apartment in Karachi\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"WIFI\", \"Parking\", \"Pool\", \"Gym\", \"Masjid\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n//   \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [24.81836,67.0063023]\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"title\": \"Zong Luxury Apartment in Karachi\",\r\n  \"description\": \"A 3-bedroom apartment with stunning sea views and modern amenities.\",\r\n  \"price\": 25000000,\r\n  \"city\": \"Karachi\",\r\n  \"address\": \"Clifton Block 5, Karachi\",\r\n  \"amenities\": [\"WIFI\", \"Parking\", \"Pool\", \"Gym\", \"Masjid\"],\r\n  \"images\": [\r\n    \"https://example.com/uploads/img1.jpg\",\r\n    \"https://example.com/uploads/img2.jpg\"\r\n  ],\r\n  \"videos\": [\r\n    \"https://example.com/uploads/video1.mp4\"\r\n  ],\r\n//   \"owner\": \"670d7d99b3f88df73aa12c5f\",\r\n  \"location\": {\r\n    \"type\": \"Point\",\r\n    \"coordinates\": [24.81836,67.0063023]\r\n  }, \r\n  \"type\": \"Sale\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

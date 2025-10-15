@@ -52,6 +52,11 @@ const propertySchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    type: {
+      type: String,
+      enum: ["Sale", "Rent"],
+      required: true,
+    }
   },
   { timestamps: true }
 );

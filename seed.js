@@ -49,6 +49,7 @@ async function seedData() {
         price: faker.number.int({ min: 10000, max: 300000 }),
         type: randomType,
         city: randomCity,
+        type:"Sale",
         amenities: randomAmenities,
         owner: randomOwner._id,
         location: {

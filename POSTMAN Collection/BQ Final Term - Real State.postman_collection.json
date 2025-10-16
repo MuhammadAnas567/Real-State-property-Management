@@ -110,6 +110,126 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "searchByAmenities",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{propertyRoutes}}search{{amenities}}",
+									"host": [
+										"{{propertyRoutes}}search{{amenities}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "searchByCity",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{propertyRoutes}}search{{city}}",
+									"host": [
+										"{{propertyRoutes}}search{{city}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "searchByPrice",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{propertyRoutes}}search{{searchByPrice}}",
+									"host": [
+										"{{propertyRoutes}}search{{searchByPrice}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "searchNearBy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{propertyRoutes}}search{{searchNearBy}}",
+									"host": [
+										"{{propertyRoutes}}search{{searchNearBy}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sortByPrice",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{propertyRoutes}}search{{sortByPrice}}",
+									"host": [
+										"{{propertyRoutes}}search{{sortByPrice}}"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -610,6 +730,16 @@
 		{
 			"key": "city",
 			"value": ""
+		},
+		{
+			"key": "sortByPrice",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "searchByPrice",
+			"value": "",
+			"type": "default"
 		}
 	]
 }

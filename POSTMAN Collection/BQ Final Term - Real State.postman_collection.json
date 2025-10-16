@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c31627da-e4f9-4061-922a-bf192c997225",
+		"_postman_id": "f277dc0d-72d6-47d4-87e9-4fe0b93a07f0",
 		"name": "BQ Final Term - Real State",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33143302"
@@ -84,6 +84,35 @@
 		{
 			"name": "Properties",
 			"item": [
+				{
+					"name": "Properties Filters",
+					"item": [
+						{
+							"name": "searchByKeyword",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{propertyRoutes}}search{{keyword}}",
+									"host": [
+										"{{propertyRoutes}}search{{keyword}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "createProperty",
 					"request": {
@@ -210,40 +239,42 @@
 			]
 		},
 		{
-			"name": "Properties Filters",
-			"item": [
-				{
-					"name": "searchByKeyword",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{propertyRoutes}}search{{keyword}}",
-							"host": [
-								"{{propertyRoutes}}search{{keyword}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Booking",
 			"item": [
 				{
 					"name": "Booking Filters",
-					"item": []
+					"item": [
+						{
+							"name": "SearchBookingByUserId",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{bookingRoutes}}searchbooking?userId={{userId}}",
+									"host": [
+										"{{bookingRoutes}}searchbooking"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "{{userId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "createBooking",
@@ -318,9 +349,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{bookingRoutes}}my",
+							"raw": "{{bookingRoutes}}my{{pagination}}",
 							"host": [
-								"{{bookingRoutes}}my"
+								"{{bookingRoutes}}my{{pagination}}"
 							]
 						}
 					},
@@ -367,7 +398,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"bookingId\": \"{{bookingId}}\",\r\n    \"status\": \"confirmed\"\r\n}",
+							"raw": "{\r\n    \"bookingId\": \"{{bookingId}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -400,7 +431,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"bookingId\": \"{{bookingId}}\",\r\n    \"status\": \"cancelled\"\r\n}",
+							"raw": "{\r\n    \"bookingId\": \"{{bookingId}}\"\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -479,6 +510,106 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authRoutes",
+			"value": ""
+		},
+		{
+			"key": "authToken",
+			"value": ""
+		},
+		{
+			"key": "pagination",
+			"value": ""
+		},
+		{
+			"key": "propertyRoutes",
+			"value": ""
+		},
+		{
+			"key": "bookingRoutes",
+			"value": ""
+		},
+		{
+			"key": "chatRoutes",
+			"value": ""
+		},
+		{
+			"key": "keyword",
+			"value": ""
+		},
+		{
+			"key": "sortBy",
+			"value": ""
+		},
+		{
+			"key": "searchNearBy",
+			"value": ""
+		},
+		{
+			"key": "amenities",
+			"value": ""
+		},
+		{
+			"key": "cityName",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "userId&sortDate",
+			"value": ""
+		},
+		{
+			"key": "bookingId",
+			"value": ""
+		},
+		{
+			"key": "propertyId",
+			"value": ""
+		},
+		{
+			"key": "city",
+			"value": ""
 		}
 	]
 }

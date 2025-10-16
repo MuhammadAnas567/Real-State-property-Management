@@ -115,7 +115,7 @@ exports.searchBooking = async (req, res) => {
   try {
     const { userId, sortByDate = "desc" } = req.query; // ?userId=xxx&sortByDate=desc
 
-    const userObjectId = new mongoose.Schema.Types.ObjectId(userId);
+    const userObjectId = new mongoose.Types.ObjectId(userId);
 
     const bookings = await Booking.aggregate([
 
